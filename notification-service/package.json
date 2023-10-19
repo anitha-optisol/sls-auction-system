@@ -1,0 +1,17 @@
+{
+  "name": "aws-node-sls-service",
+  "version": "1.0.0",
+  "description": "Codingly template for Serverless Framework projects",
+  "author": "Ariel Weinberger <ariel@codingly.io>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1432.0",
+    "middy": "^0.36.0",
+    "uuid": "^9.0.0",
+    "webpack": "^5.88.2"
+  },
+  "devDependencies": {
+    "serverless-bundle": "^6.0.0",
+    "serverless-pseudo-parameters": "^2.6.1"
+  }
+}
