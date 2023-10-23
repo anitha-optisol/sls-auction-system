@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "c284358c-ecef-4c66-8e3c-69e812644c8b",
+		"name": "Auction-System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25142271",
+		"_collection_link": "https://gold-capsule-331447.postman.co/workspace/Team~ee7376e8-3d03-4eff-98e2-4d6a934a9acb/collection/25142271-c284358c-ecef-4c66-8e3c-69e812644c8b?action=share&source=collection_link&creator=25142271"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\":\"Anitha\",\n\"email\":\"anitha.selvanathan@optisolbusiness.com\",\n\"mobileNumber\":\"9878678909\",\n\"password\":\"Test@123\",\n\"isDeleted\":false,\n\"isActive\":true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://oeiiqhlm4f.execute-api.us-west-1.amazonaws.com/dev/register",
+					"protocol": "https",
+					"host": [
+						"oeiiqhlm4f",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"anitha.selvanathan@optisolbusiness.com\",\n    \"password\":\"Test@123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://oeiiqhlm4f.execute-api.us-west-1.amazonaws.com/dev/login",
+					"protocol": "https",
+					"host": [
+						"oeiiqhlm4f",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://oeiiqhlm4f.execute-api.us-west-1.amazonaws.com/dev/get_users",
+					"protocol": "https",
+					"host": [
+						"oeiiqhlm4f",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"get_users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://oeiiqhlm4f.execute-api.us-west-1.amazonaws.com/dev/users_by_id/a15611a6-f962-4cd9-9826-7a1e08fbd834",
+					"protocol": "https",
+					"host": [
+						"oeiiqhlm4f",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"users_by_id",
+						"a15611a6-f962-4cd9-9826-7a1e08fbd834"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"itemId\":\"2\",\n    \"itemName\":\"speaker\",\n    \"price\":\"1000\",\n    \"status\":\"open\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rpcjif1y3h.execute-api.us-west-1.amazonaws.com/dev/add_item",
+					"protocol": "https",
+					"host": [
+						"rpcjif1y3h",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"add_item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rpcjif1y3h.execute-api.us-west-1.amazonaws.com/dev/get_items",
+					"protocol": "https",
+					"host": [
+						"rpcjif1y3h",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"get_items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place bid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"itemId\":\"15729393-477b-442f-813c-97ce9c44f5ea\",\n    \"bid_price\":\"2600\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rpcjif1y3h.execute-api.us-west-1.amazonaws.com/dev/place_bid",
+					"protocol": "https",
+					"host": [
+						"rpcjif1y3h",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"place_bid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update bid price",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bid_id\":\"023b30bb-ec0f-43db-b0da-1086b1c099b9\",\n    \"itemId\":\"15729393-477b-442f-813c-97ce9c44f5ea\",\n    \"update_bid_price\":\"1500\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rpcjif1y3h.execute-api.us-west-1.amazonaws.com/dev/update_bid",
+					"protocol": "https",
+					"host": [
+						"rpcjif1y3h",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"update_bid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close bid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://rpcjif1y3h.execute-api.us-west-1.amazonaws.com/dev/close_bid",
+					"protocol": "https",
+					"host": [
+						"rpcjif1y3h",
+						"execute-api",
+						"us-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"close_bid"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
