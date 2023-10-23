@@ -2,7 +2,7 @@ const { v4 } = require("uuid");
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require("middy");
-const { validateJWTToken } = require("../utils/jwtGenerator");
+const { validateBuyerJWTToken } = require("../utils/jwtGenerator");
 const { notificationService } = require("../services/notification");
 
 async function placeBid(event, context) {
@@ -19,11 +19,20 @@ async function placeBid(event, context) {
       .promise();
     item = result.Item;
     if (item) {
+      if(item.buyer_id && item.buyer_id !== event.user.id){
+        if(bid_price <= item.highest_bid){
+          return {
+            statusCode: 400,
+            message: `Please try to place a bid higher.! Highest bid price is ${item.highest_bid}`,
+          };
+        }
+      }
 
       const payload = {
         id,
         itemId : itemId,
         bid_price: bid_price,
+        buyer_id: event.user.id,
         date: now.toISOString(),
       };
       const placeBid = await dynamodb
@@ -32,6 +41,11 @@ async function placeBid(event, context) {
           Item: payload,
         })
         .promise();
+        let responseObject = {
+          statusCode: 201,
+          body: JSON.stringify(placeBid),
+
+        }
       const updatePayload = {
             TableName: "ItemsTable",
             Key: { id: itemId },
@@ -47,11 +61,12 @@ async function placeBid(event, context) {
             ReturnValues: 'ALL_NEW',
         };
         const sendMail = await notificationService();
+        console.log("sendMail=========>>",sendMail)
         await dynamodb.update(updatePayload).promise();
-      return {
-        statusCode: 201,
-        body: JSON.stringify(sendMail),
-      };
+        if(bid_price > item.highest_bid){
+          responseObject.message = 'Highest bid'
+        }
+      return responseObject;
     } else {
       return {
         statusCode: 204,
@@ -67,5 +82,5 @@ async function placeBid(event, context) {
   }
 }
 
-export const handler = middy(placeBid);
-// .use(validateJWTToken)
+export const handler = middy(placeBid)
+                .use(validateBuyerJWTToken)

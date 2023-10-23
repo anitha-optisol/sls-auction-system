@@ -1,13 +1,12 @@
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require('middy')
-const { validateJWTToken } = require('../utils/jwtGenerator')
+const { validateSellerJWTToken } = require('../utils/jwtGenerator')
 
 async function closeBid(event, context) {
 
     try {
         let item;
-        const now = new Date();
         const { itemId, status } = JSON.parse(event.body);
         const result = await dynamodb
           .get({
@@ -51,4 +50,4 @@ async function closeBid(event, context) {
 }
 
 export const handler = middy(closeBid)
-//   .use(validateJWTToken)
+  .use(validateSellerJWTToken)

@@ -26,7 +26,7 @@ export async function token(user) {
   }
 }
 
-export const validateJWTToken = {
+export const validateSellerJWTToken = {
   before: async (handler, next) => {
     try {
       if (handler.event.headers.Authorization) {
@@ -46,7 +46,53 @@ export const validateJWTToken = {
             })
             .promise();
           const getUserLoginDetail = result.Item;
-          if (getUserLoginDetail) {
+          if (getUserLoginDetail && getUserLoginDetail.userType === 'seller') {
+            handler.event.user = getUserLoginDetail;
+          } else {
+            return {
+              statusCode: 401,
+              message: "UNAUTHORIZED"
+            }
+          }
+        }
+        next();
+      } else {
+        return {
+          statusCode: 403,
+          message: "Access forbidden"
+        }
+      }
+    } catch (error) {
+      return {
+        statusCode: 401,
+        message: "Unauthorized",
+        body: error
+      }
+    }
+  }
+};
+
+export const validateBuyerJWTToken = {
+  before: async (handler, next) => {
+    try {
+      if (handler.event.headers.Authorization) {
+        const [tokenType, token] = handler.event.headers.Authorization.split(' ');
+        if (tokenType.toLowerCase() !== 'jwt') {
+          return {
+            statusCode: 403,
+            message: "Invalid headers"
+          }
+        } else {
+          const decoded = jwt.verify(token, JWT_SECRET);
+          const { userId: id } = decoded.sub;
+          let result = await dynamodb
+            .get({
+              TableName: "UsersTable",
+              Key: { id }
+            })
+            .promise();
+          const getUserLoginDetail = result.Item;
+          if (getUserLoginDetail && getUserLoginDetail.userType === 'buyer') {
             handler.event.user = getUserLoginDetail;
           } else {
             return {

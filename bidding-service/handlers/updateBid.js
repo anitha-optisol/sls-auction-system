@@ -1,14 +1,13 @@
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require('middy')
-const { validateJWTToken } = require('../utils/jwtGenerator')
+const { validateBuyerJWTToken } = require('../utils/jwtGenerator')
 
 async function updateBid(event, context) {
 
     try {
         let item;
-        const now = new Date();
-        const { bid_id, itemId, bid_price, update_bid_price } = JSON.parse(event.body);
+        const { bid_id, itemId, update_bid_price } = JSON.parse(event.body);
         const result = await dynamodb
           .get({
             TableName: "ItemsTable",
@@ -17,6 +16,14 @@ async function updateBid(event, context) {
           .promise();
         item = result.Item;
         if (item) {
+          if(item.buyer_id && item.buyer_id !== event.user.id){
+            if(update_bid_price <= item.highest_bid){
+              return {
+                statusCode: 400,
+                message: `Please try to place a bid higher.! Highest bid price is ${item.highest_bid}`,
+              };
+            }
+          }
           const updatePayload = {
                 TableName: "BidPricesTable",
                 Key: { id: bid_id },
@@ -52,4 +59,4 @@ async function updateBid(event, context) {
 }
 
 export const handler = middy(updateBid)
-//   .use(validateJWTToken)
+  .use(validateBuyerJWTToken)

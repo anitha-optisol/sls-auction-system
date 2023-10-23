@@ -6,7 +6,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function register(event, context) {
 
   try {
-    const { name, email, mobileNumber,password, isDeleted, isActive } = JSON.parse(event.body);
+    const { name, email, mobileNumber,password, isDeleted, isActive, userType } = JSON.parse(event.body);
     const id = v4();
     const now = new Date();
     const incrypt_password = await passwordEncryption(password);
@@ -17,6 +17,7 @@ async function register(event, context) {
       mobileNumber,
       isDeleted,
       isActive,
+      userType,
       password: incrypt_password,
       date: now.toISOString(),
     };

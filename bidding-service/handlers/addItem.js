@@ -2,7 +2,7 @@ const { v4 } = require("uuid");
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require('middy')
-const { validateJWTToken } = require('../utils/jwtGenerator')
+const { validateSellerJWTToken } = require('../utils/jwtGenerator')
 
 async function addItem(event, context) {
 
@@ -41,4 +41,4 @@ async function addItem(event, context) {
 }
 
 export const handler = middy(addItem)
-  // .use(validateJWTToken)
+  .use(validateSellerJWTToken)
