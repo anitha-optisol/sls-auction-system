@@ -2,7 +2,6 @@ const { v4 } = require("uuid");
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require('middy')
-const { validateJWTToken } = require('../utils/jwtGenerator')
 
 async function getUsers(event, context) {
 
@@ -28,7 +27,6 @@ async function getUsers(event, context) {
       body: JSON.stringify(UsersTable),
     };
   } catch (ex) {
-    console.log("catch error==============>>>",ex)
     return {
       statusCode: 500,
       body: JSON.stringify(ex),
@@ -37,4 +35,3 @@ async function getUsers(event, context) {
 }
 
 export const handler = middy(getUsers)
-  // .use(validateJWTToken)

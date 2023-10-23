@@ -1,0 +1,91 @@
+service: auction-bididng-poc
+
+frameworkVersion: "2.72.4"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 256
+  stage: dev
+  profile: default
+  region: 'us-west-1'
+  iam:
+   role:
+     statements:
+       - Effect: Allow
+         Action:
+           - dynamodb:*
+         Resource: arn:aws:dynamodb:us-west-1:842557994378:table/ItemsTable
+       - Effect: Allow
+         Action:
+           - dynamodb:*
+         Resource: arn:aws:dynamodb:us-west-1:842557994378:table/BidPricesTable
+       - Effect: Allow
+         Action:
+           - sqs:*
+         Resource: arn:aws:sqs:us-west-1:842557994378:auction-system
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+resources:
+  Resources:
+    ItemsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ItemsTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+    BidPricesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: BidPricesTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+functions:
+  addItem:
+    handler: handlers/addItem.handler
+    events:
+      - http:
+          method: POST
+          path: /add_item
+  getItems:
+      handler: handlers/getItems.handler
+      events:
+        - http:
+            method: GET
+            path: /get_items
+  placeBid:
+    handler: handlers/placeBid.handler
+    events:
+      - http:
+          method: POST
+          path: /place_bid
+  updateBid:
+    handler: handlers/updateBid.handler
+    events:
+      - http:
+          method: POST
+          path: /update_bid
+  closeBid:
+    handler: handlers/closeBid.handler
+    events:
+      - http:
+          method: POST
+          path: /close_bid
+  
+custom:
+  bundle:
+    linting: false

@@ -22,7 +22,6 @@ async function login(event, context) {
     const result = await dynamodb
       .scan(params)
       .promise();
-      console.log("result========>>>",result)
     if (result.Items.length > 0) {
       const userDetail = result.Items[0];
       const loginToken = await token(result.Items[0])
@@ -42,7 +41,6 @@ async function login(event, context) {
       };
     }
   } catch (ex) {
-    console.log("result ex========>>>",ex)
     return {
       statusCode: 500,
       body: ex

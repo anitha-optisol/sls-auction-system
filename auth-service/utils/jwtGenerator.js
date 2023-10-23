@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const JWT_SECRET = "0a6b944d-d2fb-46fc-a85e-0295c986cd9f"
+const JWT_SECRET = "MyDummySecretKey123"
 
 export async function token(user) {
   try {
