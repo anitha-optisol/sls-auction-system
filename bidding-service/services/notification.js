@@ -1,8 +1,14 @@
 const AWS = require("aws-sdk");
 const sqs = new AWS.SQS();
 
-export async function notificationService(status, orderDetails, user) {
+export async function notificationService(getUserData) {
     try {
+        const emailArray = [];
+        if(getUserData && getUserData.length > 0){
+            getUserData.forEach(element => {
+                emailArray.push(element.email)
+            });
+        }
         let subject;
         let body;
         const not = await sqs.sendMessage({
@@ -10,8 +16,7 @@ export async function notificationService(status, orderDetails, user) {
             MessageBody: JSON.stringify({
                 subject:'New bid placed!',
                 body:`New bid placed... Please check it out!`,
-                // recipient: user.email
-                recipient: 'anitha.selvanathan@optisolbusiness.com'
+                recipient: emailArray
             })
         }).promise();
         return {

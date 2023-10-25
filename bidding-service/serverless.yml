@@ -15,6 +15,10 @@ provider:
        - Effect: Allow
          Action:
            - dynamodb:*
+         Resource: arn:aws:dynamodb:us-west-1:842557994378:table/UsersTable
+       - Effect: Allow
+         Action:
+           - dynamodb:*
          Resource: arn:aws:dynamodb:us-west-1:842557994378:table/ItemsTable
        - Effect: Allow
          Action:
@@ -24,6 +28,14 @@ provider:
          Action:
            - sqs:*
          Resource: arn:aws:sqs:us-west-1:842557994378:auction-system
+       - Effect: Allow
+         Action:
+           - ses:*
+         Resource: arn:aws:ses:*
+       - Effect: Allow
+         Action:
+           - sqs:ReceiveMessage
+         Resource: arn:aws:ses:*    
 
 plugins:
   - serverless-bundle

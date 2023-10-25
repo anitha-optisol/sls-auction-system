@@ -4,6 +4,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require("middy");
 const { validateBuyerJWTToken } = require("../utils/jwtGenerator");
 const { notificationService } = require("../services/notification");
+const { sendMail } = require("../services/sendMail");
 
 async function placeBid(event, context) {
   try {
@@ -49,19 +50,36 @@ async function placeBid(event, context) {
       const updatePayload = {
             TableName: "ItemsTable",
             Key: { id: itemId },
-            UpdateExpression: 'set #itemId = :itemId, #highest_bid = :highest_bid',
+            UpdateExpression: 'set #itemId = :itemId, #highest_bid = :highest_bid,#buyer_id = :buyer_id',
             ExpressionAttributeValues: {
                 ':itemId': itemId,
-                ':highest_bid': bid_price
+                ':highest_bid': bid_price,
+                ':buyer_id': event.user.id
             },
             ExpressionAttributeNames: {
                 '#itemId': 'itemId',
-                '#highest_bid': 'highest_bid'               
+                '#highest_bid': 'highest_bid',               
+                '#buyer_id': 'buyer_id'               
             },
             ReturnValues: 'ALL_NEW',
         };
-        const sendMail = await notificationService();
-        console.log("sendMail=========>>",sendMail)
+
+        var params = {
+          TableName: "UsersTable",
+          ExpressionAttributeNames: {
+            "#userType": "userType"
+          },
+          FilterExpression: "#userType=:userType AND id <> :exclude",
+          ExpressionAttributeValues: {
+            ":userType": 'buyer',
+            ":exclude": event.user.id,
+          },
+        };
+
+        const getUserData = await dynamodb.scan(params).promise();
+     
+        // const sendMail = await notificationService(getUserData);
+        const notifyUsers = await sendMail(getUserData)
         await dynamodb.update(updatePayload).promise();
         if(bid_price > item.highest_bid){
           responseObject.message = 'Highest bid'

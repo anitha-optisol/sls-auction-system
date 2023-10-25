@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const JWT_SECRET = "0a6b944d-d2fb-46fc-a85e-0295c986cd9f"
+const JWT_SECRET = "MyDummySecretKey123"
 
 export async function token(user) {
   try {
@@ -30,7 +30,7 @@ export const validateSellerJWTToken = {
   before: async (handler, next) => {
     try {
       if (handler.event.headers.Authorization) {
-        const [tokenType, token] = handler.event.headers.Authorization.split(' ');
+        const [type, tokenType, token] = handler.event.headers.Authorization.split(' ');
         if (tokenType.toLowerCase() !== 'jwt') {
           return {
             statusCode: 403,
@@ -76,7 +76,7 @@ export const validateBuyerJWTToken = {
   before: async (handler, next) => {
     try {
       if (handler.event.headers.Authorization) {
-        const [tokenType, token] = handler.event.headers.Authorization.split(' ');
+        const [type, tokenType, token] = handler.event.headers.Authorization.split(' ');
         if (tokenType.toLowerCase() !== 'jwt') {
           return {
             statusCode: 403,

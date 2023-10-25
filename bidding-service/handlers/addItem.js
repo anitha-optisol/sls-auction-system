@@ -3,6 +3,8 @@ const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require('middy')
 const { validateSellerJWTToken } = require('../utils/jwtGenerator')
+const { jsonBodyParser, httpErrorHandler } = require('middy/middlewares');
+
 
 async function addItem(event, context) {
 

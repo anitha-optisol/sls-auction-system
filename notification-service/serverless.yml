@@ -33,17 +33,6 @@ functions:
         arn: arn:aws:sqs:us-west-1:842557994378:auction-system
         batchSize: 1
         
-resources:
- Resources:
-    MailQueue:
-      Type: AWS::SQS::Queue
-    # Properties:
-    #   QueueName: MailQueue-dev
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
-
 custom:
   bundle:
     linting: false
