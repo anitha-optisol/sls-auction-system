@@ -14,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"name\":\"Anitha\",\n\"email\":\"anitha.selvanathan@optisolbusiness.com\",\n\"mobileNumber\":\"9878678909\",\n\"password\":\"Test@123\",\n\"isDeleted\":false,\n\"isActive\":true\n}",
+					"raw": "{\n\"name\":\"Anitha\",\n\"email\":\"anitha3@yopmail.com\",\n\"mobileNumber\":\"9878678909\",\n\"password\":\"Test@123\",\n\"isDeleted\":false,\n\"isActive\":true,\n\"userType\":\"buyer\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -46,7 +46,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\":\"anitha.selvanathan@optisolbusiness.com\",\n    \"password\":\"Test@123\"\n}",
+					"raw": "{\n    \"email\":\"anitha3@yopmail.com\",\n    \"password\":\"Test@123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -100,7 +100,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://oeiiqhlm4f.execute-api.us-west-1.amazonaws.com/dev/users_by_id/a15611a6-f962-4cd9-9826-7a1e08fbd834",
+					"raw": "https://oeiiqhlm4f.execute-api.us-west-1.amazonaws.com/dev/users_by_id/db2e7349-c270-4c57-9f65-a6a76c66af5a",
 					"protocol": "https",
 					"host": [
 						"oeiiqhlm4f",
@@ -112,7 +112,7 @@
 					"path": [
 						"dev",
 						"users_by_id",
-						"a15611a6-f962-4cd9-9826-7a1e08fbd834"
+						"db2e7349-c270-4c57-9f65-a6a76c66af5a"
 					]
 				}
 			},
@@ -121,11 +121,28 @@
 		{
 			"name": "Add Item",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdWN0aW9uLXN5c3RlbS1wb2MiLCJzdWIiOnsidXNlcklkIjoiYjJjOGRkZDMtNmNiZi00ZThhLTg4ZjEtMTBmZjc4MDQ2YzA5In0sImlhdCI6MTY5ODEyMTM5NDc1OH0.frjCiUXElaTknvHMxfuZx5pFJWFWICHdT51aIvLL73w",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdWN0aW9uLXN5c3RlbS1wb2MiLCJzdWIiOnsidXNlcklkIjoiYjJjOGRkZDMtNmNiZi00ZThhLTg4ZjEtMTBmZjc4MDQ2YzA5In0sImlhdCI6MTY5ODExODM0Mzc5Nn0.bfGVp0k8XAjSte5IA3c-Ndb-c1U3N9oKR34QPAkc-X8",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"itemId\":\"2\",\n    \"itemName\":\"speaker\",\n    \"price\":\"1000\",\n    \"status\":\"open\"\n}",
+					"raw": "{\n    \"itemId\":\"1\",\n    \"itemName\":\"speaker\",\n    \"price\":\"100\",\n    \"status\":\"open\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -176,11 +193,21 @@
 		{
 			"name": "Place bid",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdWN0aW9uLXN5c3RlbS1wb2MiLCJzdWIiOnsidXNlcklkIjoiNGY3M2FlZTAtZTE2NC00ODYwLWEyOGItZGQxZjMwMTYwYzU4In0sImlhdCI6MTY5ODIwODY4Njc5NX0.iKCUlJnH75qW734wrHsOXEcchUdgFPyBrWd-wlUIo5Q",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"itemId\":\"15729393-477b-442f-813c-97ce9c44f5ea\",\n    \"bid_price\":\"2600\"\n}",
+					"raw": "{\n    \"itemId\":\"155e5e0e-bfdc-4dbc-b0aa-d1837aee36be\",\n    \"bid_price\":\"2600\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -242,6 +269,15 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"itemId\":\"15729393-477b-442f-813c-97ce9c44f5ea\",\n    \"status\":\"closed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "https://rpcjif1y3h.execute-api.us-west-1.amazonaws.com/dev/close_bid",
 					"protocol": "https",
